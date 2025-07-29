@@ -11,4 +11,5 @@ variable "databricks_client_id" {
 variable "databricks_client_secret" {
   description = "The client secret for the Databricks workspace."
   type        = string
+  sensitive   = true
 }
