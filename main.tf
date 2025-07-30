@@ -6,7 +6,7 @@
 
 # This Terraform code assumes that the catalog already exists. Let's look it up:
 data "databricks_catalog" "this" {
-  name = "sandbox"
+  name = var.catalog_name
 }
 
 # Output the catalog information
@@ -17,7 +17,7 @@ output "catalog_info" {
 # Create a schema (database) in the existing catalog
 resource "databricks_schema" "this" {
   catalog_name = data.databricks_catalog.this.id
-  name         = "nyctaxi"
+  name         = var.schema_name
   comment      = "This database is managed by Terraform"
   properties = {
     catalog = data.databricks_catalog.this.name
@@ -27,17 +27,17 @@ resource "databricks_schema" "this" {
 
 # Let's lookup our serverless SQL warehouse
 data "databricks_sql_warehouse" "this" {
-  name = "Serverless Starter Warehouse"
+  name = var.warehouse_name
 }
 
 # Lookup the source table to extract its schema
 data "databricks_table" "source" {
-  name = "samples.nyctaxi.trips"
+  name = var.source_table_name
 }
 
 # Create a managed table in the schema
 resource "databricks_sql_table" "this" {
-  name         = "trips"
+  name         = var.target_table_name
   catalog_name = data.databricks_catalog.this.name
   schema_name  = databricks_schema.this.name
   table_type   = "MANAGED"
@@ -81,8 +81,9 @@ EOT
 }
 
 resource "databricks_job" "sql_copy_job" {
-  name        = "SQL Copy Job"
-  description = "This job copies data from the source table to the managed table using a SQL query."
+  name        = var.job_name
+  description = var.job_description
+
   task {
     task_key = "run_copy_query"
     sql_task {
@@ -93,7 +94,16 @@ resource "databricks_job" "sql_copy_job" {
     }
   }
   schedule {
-    quartz_cron_expression = "0 0 12 * * ?" # Runs daily at noon
-    timezone_id            = "UTC"
+    quartz_cron_expression = var.quartz_cron_expression
+    timezone_id            = var.timezone_id
+  }
+
+  tags = var.job_tags
+
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to the schedule outside of Terraform
+      schedule
+    ]
   }
 }
