@@ -5,9 +5,9 @@ Repository for Databricks Demo Terraform workspace
 This Terraform [code](./main.tf) creates a managed table in an existing catalog and schema, replicates the schema from a source table, and sets up a job to copy data using a merge query.
 
 ### Prerequisites
-  1. Catalog `sandbox` has been created manually in the Databricks UI with the default storage.
-  2. Service principal `TERRAFORM_ADMIN` has been created with all privileges granted to it.
-  3. Credentials have been generated and stored as secure variables inside TFC workspace:
+  1. Catalog `sandbox` created manually in the Databricks UI with the default storage.
+  2. Service principal `TERRAFORM_ADMIN` created with all privileges granted to it.
+  3. Credentials generated and stored as secure variables inside TFC workspace:
         - `databricks_workspace_url`
         - `databricks_client_id`
         - `databricks_client_secret`
