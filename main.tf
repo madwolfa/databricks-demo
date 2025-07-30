@@ -18,8 +18,9 @@
      4. Environment specific configuration added to 'terraform.auto.tfvars' file.
 
    References:
-     1. https://registry.terraform.io/providers/databricks/databricks/latest/docs
-     2. https://docs.databricks.com/aws/en/sql/language-manual/delta-merge-into#with-schema-evolution
+     1. https://docs.databricks.com/aws/en/dev-tools/terraform
+     2. https://registry.terraform.io/providers/databricks/databricks/latest/docs
+     3. https://docs.databricks.com/aws/en/sql/language-manual/delta-merge-into#with-schema-evolution
 */
 
 # This Terraform code assumes that the catalog already exists. Let's look it up:
