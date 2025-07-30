@@ -20,8 +20,6 @@ env:
   DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
   DATABRICKS_CLIENT_ID: ${{ vars.DATABRICKS_CLIENT_ID }}
   DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
-  JOB_NAME: ${{ github.event.inputs.job_name }}
-  WEEKDAYS_ONLY: ${{ github.event.inputs.weekdays_only }}
 
 jobs:
   build:
@@ -41,4 +39,7 @@ jobs:
           pip install databricks-sdk
 
       - name: Run Python script
+        env:
+          JOB_NAME: ${{ github.event.inputs.job_name }}
+          WEEKDAYS_ONLY: ${{ github.event.inputs.weekdays_only }}
         run: python scripts/modify_job.py
