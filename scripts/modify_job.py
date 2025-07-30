@@ -1,3 +1,23 @@
+"""
+  This script modifies the schedule of a Databricks job to run on weekdays only or every day based on the environment variable WEEKDAYS_ONLY.
+  It uses the Databricks SDK for Python to interact with the Databricks workspace.
+
+  It expects the following variables to be set in the environment:
+    - DATABRICKS_HOST: The URL of the Databricks workspace.
+    - DATABRICKS_CLIENT_ID: The client ID of the service principal.
+    - DATABRICKS_CLIENT_SECRET: The client secret of the service principal.
+    - JOB_NAME: The name of the job to modify.
+    - WEEKDAYS_ONLY: A boolean value indicating whether to run the job on weekdays only (True) or every day (False).
+
+  References:
+    1. https://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html
+    2. https://docs.databricks.com/aws/en/dev-tools/sdk-python
+    3. https://databricks-sdk-py.readthedocs.io/en/latest/getting-started.html
+    4. https://databricks-sdk-py.readthedocs.io/en/latest/workspace/jobs/jobs.html
+    5. https://databricks-sdk-py.readthedocs.io/en/latest/dbdataclasses/jobs.html#databricks.sdk.service.jobs.JobSettings
+    6. https://databricks-sdk-py.readthedocs.io/en/latest/dbdataclasses/jobs.html#databricks.sdk.service.jobs.CronSchedule
+"""
+
 import os
 from databricks.sdk import WorkspaceClient
 from databricks.sdk.service import jobs
@@ -5,6 +25,7 @@ from databricks.sdk.service import jobs
 JOB_NAME = os.getenv("JOB_NAME", "SQL Copy Job")
 WEEKDAYS_ONLY = os.getenv("WEEKDAYS_ONLY", "False").lower() == "true"
 
+# Initialize the WorkspaceClient with environment variables
 w = WorkspaceClient()
 
 
