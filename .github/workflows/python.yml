@@ -1,0 +1,30 @@
+name: "Python CI"
+on:
+  workflow_dispatch:      
+
+env:
+  PYTHON_VERSION: "3.10"
+  DATABRICKS_HOST: ${{ env.DATABRICKS_HOST }}
+  DATABRICKS_CLIENT_ID: ${{ env.DATABRICKS_CLIENT_ID }}
+  DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install databricks-sdk
+
+      - name: Run Python script
+        run: |
+          python ../scripts/databricks.py
