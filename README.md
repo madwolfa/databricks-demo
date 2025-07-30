@@ -18,7 +18,7 @@ This IaC is executed using the `Terraform Apply` GitHub Action [workflow](./.git
 Speculative plans are supported using the `Terraform Plan` GitHub Action [workflow](./.github/workflows/terraform-plan.yml) as part of PR review process.
 
 ## Python
-This [script](./scripts/modify_job.py) modifies the schedule of a Databricks job to run on weekdays only or every day based on the environment variable `WEEKDAYS_ONLY`. It uses the Databricks SDK for Python to interact with the Databricks workspace.
+This [script](./scripts/modify_job.py) modifies the schedule of a Databricks job to run on weekdays only or every day based on the environment variable `WEEKDAYS_ONLY`. It uses the [Databricks SDK for Python](https://docs.databricks.com/aws/en/dev-tools/sdk-python) to interact with the Databricks workspace.
 
 ### Prerequisites
 The script expects the following variables to be set in the environment (we pass all of these through GitHub Actions):
