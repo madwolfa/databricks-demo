@@ -2,8 +2,10 @@ name: "Python CI"
 on:
   workflow_dispatch:      
 
+permissions:
+  contents: read
+
 env:
-  PYTHON_VERSION: "3.10"
   DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
 
 jobs:
@@ -14,9 +16,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: "3.13"
 
       - name: Install dependencies
         run: |
@@ -24,5 +26,4 @@ jobs:
           pip install databricks-sdk
 
       - name: Run Python script
-        run: |
-          python ./scripts/databricks.py
+        run: python scripts/databricks.py
