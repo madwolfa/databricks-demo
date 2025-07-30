@@ -4,7 +4,7 @@ Repository for Databricks Demo Terraform workspace
 ## Terraform
 This Terraform [code](./main.tf) creates a new schema and managed table in an existing catalog, and sets up a scheduled job to copy data from the source table using a merge query. 
 
-Original table schema is replicated with an added `row_hash` column. Since there is no unique key available in the source table, we will use a hash of all columns for reliable row identification. Using the "on-the-fly" hash comparison, the query will insert new, unique rows and delete rows that are no longer present in the source table.
+The source table schema is replicated with an added `row_hash` column. Since there is no unique key in the original table, a hash value derived from all columns will be used for reliable row identification. Using on-the-fly hash comparison, the query will insert new, unique rows and delete rows that are no longer present in the source table.
 
 ### Prerequisites
   1. Catalog `sandbox` created manually in the Databricks workspace UI with the default storage.
@@ -16,7 +16,8 @@ Original table schema is replicated with an added `row_hash` column. Since there
   4. Environment specific configuration added to [terraform.auto.tfvars](./terraform.auto.tfvars) file.
 
 ### Execution
-This IaC is executed using the `Terraform Apply` GitHub Action [workflow](./.github/workflows/terraform-apply.yml). Terraform Cloud is used as a backend.
+This IaC is executed using the `Terraform Apply` GitHub Action [workflow](./.github/workflows/terraform-apply.yml). Terraform Cloud is used as a backend. 
+
 Speculative plans are supported using the `Terraform Plan` GitHub Action [workflow](./.github/workflows/terraform-plan.yml) as part of PR review process.
 
 ## Python
