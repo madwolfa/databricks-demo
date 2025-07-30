@@ -1,17 +1,15 @@
 /* 
-   Summary:    
-     This Terraform code creates a managed table in an existing catalog and schema, replicates the 
-     schema from a source table, and sets up a job to copy data using a merge query.
+   This Terraform code creates a schema and managed table in an existing catalog, and sets up a scheduled job to copy data using a merge query.
     
    Prerequisites:
-      1. Catalog 'sandbox' created manually in the Databricks workspace UI with the default storage.
-      2. Service principal 'TERRAFORM_ADMIN' created with 'ALL PRIVILEGES' granted on the catalog.
-      3. Credentials generated and stored as secure variables inside TFC workspace:
+     1. Catalog 'sandbox' created manually in the Databricks workspace UI with the default storage.
+     2. Service principal 'TERRAFORM_ADMIN' created with 'ALL PRIVILEGES' granted on the catalog.
+     3. Credentials generated and stored as secure variables inside TFC workspace:
          - databricks_workspace_url
          - databricks_client_id
          - databricks_client_secret
          - databricks_region
-    4. Environment specific configuration added to 'terraform.auto.tfvars' file.
+     4. Environment specific configuration added to 'terraform.auto.tfvars' file.
 */
 
 # This Terraform code assumes that the catalog already exists. Let's look it up:

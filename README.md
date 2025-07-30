@@ -2,7 +2,7 @@
 Repository for Databricks Demo Terraform workspace
 
 ## Terraform
-This Terraform [code](./main.tf) creates a managed table in an existing catalog and schema, replicates the schema from a source table, and sets up a job to copy data using a merge query.
+This Terraform [code](./main.tf) creates a schema and managed table in an existing catalog, and sets up a scheduled job to copy data using a merge query.
 
 ### Prerequisites
   1. Catalog `sandbox` created manually in the Databricks workspace UI with the default storage.
