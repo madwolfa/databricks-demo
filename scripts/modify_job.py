@@ -37,6 +37,8 @@ def update_cron(cron, **kwargs):
       cron (str): The cron expression to update.
       **kwargs: Keyword arguments specifying the parts to update
                 (e.g., seconds, minutes, hours, dom, month, dow).
+    Returns:
+      str: The updated cron expression.
     """
     parts = cron.split(" ")
     if len(parts) != 6:
@@ -60,10 +62,14 @@ def update_job(job_name="", weekdays_only=False):
 
     This function updates the schedule of a Databricks job to run on weekdays only or every day based on the value of the `weekdays_only` parameter.
     If the job is not found or more than one is found - it raises an exception, otherwise it updates the schedule of the job and returns True.
+    If there is no change in the schedule, it skips an update and returns False.
 
     Args:
       job_name (str): The name of the job to update.
       weekdays_only (bool): Whether to run the job on weekdays only (True) or every day (False).
+
+    Returns:
+      bool: True if the job schedule was updated, False if no changes were made.
     """
     if not job_name:
         raise Exception("Please provide a job name!")
@@ -88,12 +94,15 @@ def update_job(job_name="", weekdays_only=False):
         cron_expression = current_schedule.quartz_cron_expression
         timezone_id = current_schedule.timezone_id
         if weekdays_only:
-            cron_expression = update_cron(cron_expression, dom="?", dow="MON-FRI")
+            new_cron_expression = update_cron(cron_expression, dom="?", dow="MON-FRI")
         else:
-            cron_expression = update_cron(cron_expression, dom="*", dow="?")
+            new_cron_expression = update_cron(cron_expression, dom="*", dow="?")
+        if new_cron_expression == cron_expression:
+            print("No changes to the job schedule.")
+            return False
         new_settings = jobs.JobSettings(
             schedule=jobs.CronSchedule(
-                quartz_cron_expression=cron_expression,
+                quartz_cron_expression=new_cron_expression,
                 timezone_id=timezone_id,
             )
         )
