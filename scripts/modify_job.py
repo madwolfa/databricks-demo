@@ -3,7 +3,7 @@ from databricks.sdk.service import catalog
 
 w = WorkspaceClient()
 
-all = w.catalogs.list(catalog.ListCatalogsRequest())
+all = w.catalogs.list()
 
 for c in all:
     print(c.name)
