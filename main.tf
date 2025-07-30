@@ -10,6 +10,8 @@
          - databricks_workspace_url
          - databricks_client_id
          - databricks_client_secret
+         - databricks_region
+    4. Environment specific configuration added to 'terraform.auto.tfvars' file.
 */
 
 # This Terraform code assumes that the catalog already exists. Let's look it up:

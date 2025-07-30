@@ -11,6 +11,8 @@ This Terraform [code](./main.tf) creates a managed table in an existing catalog 
         - `databricks_workspace_url`
         - `databricks_client_id`
         - `databricks_client_secret`
+  4. Environment specific configuration added to [terraform.auto.tfvars](./terraform.auto.tfvars) file.
+
 ### Execution
 This IaC is executed using the `Terraform Apply` GitHub Action [workflow](./.github/workflows/terraform-apply.yml). Terraform Cloud is used as a backend.
 Speculative plans are supported using the `Terraform Plan` GitHub Action [workflow](./.github/workflows/terraform-plan.yml) as part of PR review process.
