@@ -1,6 +1,17 @@
 name: "Python CI"
 on:
   workflow_dispatch:      
+    inputs:
+      job_name:
+        description: 'Name of the job to modify'
+        type: string
+        required: true
+        default: 'SQL Copy Job'
+      weekdays_only:
+        description: 'Should the job run only on weekdays?'
+        type: boolean
+        required: true
+        default: false
 
 permissions:
   contents: read
@@ -9,6 +20,8 @@ env:
   DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
   DATABRICKS_CLIENT_ID: ${{ vars.DATABRICKS_CLIENT_ID }}
   DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+  JOB_NAME: ${{ github.event.inputs.job_name }}
+  WEEKDAYS_ONLY: ${{ github.event.inputs.weekdays_only }}
 
 jobs:
   build:

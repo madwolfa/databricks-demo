@@ -3,26 +3,60 @@ from databricks.sdk import WorkspaceClient
 from databricks.sdk.service import jobs
 
 JOB_NAME = os.getenv("JOB_NAME", "SQL Copy Job")
-CRON_EXPRESSION = os.getenv("CRON_EXPRESSION", "0 0 12 * * ?")
-TIMEZONE_ID = os.getenv("TIMEZONE_ID", "UTC")
+WEEKDAYS_ONLY = os.getenv("WEEKDAYS_ONLY", "True") in ["true", "True"]
 
 w = WorkspaceClient()
 
-job_list = w.jobs.list(name=JOB_NAME)
-for j in job_list:
-    job_id = j.job_id
 
-current_settings = w.jobs.get(job_id=job_id).settings
-print("Current job schedule:\n", str(current_settings.schedule.as_dict()))
-
-new_settings = jobs.JobSettings(
-    schedule=jobs.CronSchedule(
-        quartz_cron_expression=CRON_EXPRESSION, timezone_id=TIMEZONE_ID
+# Helper function to update cron expression
+def update_cron(cron, **kwargs):
+    parts = cron.split(" ")
+    if len(parts) != 6:
+        raise Exception(f"Invalid cron expression: {cron}")
+    seconds, minutes, hours, dom, month, dow = (
+        kwargs.get("seconds", parts[0]),
+        kwargs.get("minutes", parts[1]),
+        kwargs.get("hours", parts[2]),
+        kwargs.get("dom", parts[3]),
+        kwargs.get("month", parts[4]),
+        kwargs.get("dow", parts[5]),
     )
-)
-print("New job schedule:\n", str(new_settings.schedule.as_dict()))
+    return " ".join([seconds, minutes, hours, dom, month, dow])
 
-try:
-    res = w.jobs.update(job_id=job_id, new_settings=new_settings)
-except Exception as e:
-    print("Oops!", e)
+
+job_list = w.jobs.list(name=JOB_NAME)
+
+job_ids = []
+for j in job_list:
+    job_ids.append(j.job_id)
+
+if len(job_ids) > 1:
+    print(f"Found more than one job with name '{JOB_NAME}': {job_ids}")
+    raise Exception(f"Found more than one job with name '{JOB_NAME}'.")
+elif len(job_ids) == 1:
+    job_id = job_ids[0]
+    print(f"Found job ID with name '{JOB_NAME}': {job_id}")
+else:
+    job_id = 0
+
+if job_id:
+    current_settings = w.jobs.get(job_id=job_id).settings
+    print(f"Current job schedule: {current_settings.schedule.as_dict()}")
+    cron_expression = current_settings.schedule.quartz_cron_expression
+    timezone_id = current_settings.schedule.timezone_id
+    if WEEKDAYS_ONLY:
+        cron_expression = update_cron(cron_expression, dom="?", dow="MON-FRI")
+    else:
+        cron_expression = update_cron(cron_expression, dom="*", dow="?")
+    new_settings = jobs.JobSettings(
+        schedule=jobs.CronSchedule(
+            quartz_cron_expression=cron_expression,
+            timezone_id=timezone_id,
+        )
+    )
+    print(f"New job schedule: {new_settings.schedule.as_dict()}")
+    w.jobs.update(job_id=job_id, new_settings=new_settings)
+    print("Job schedule updated!")
+else:
+    print("Job with name '{JOB_NAME}' not found!")
+    raise Exception(f"Job with name '{JOB_NAME}' not found!")
