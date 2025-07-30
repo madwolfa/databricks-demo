@@ -64,10 +64,10 @@ else:
     job_id = 0
 
 if job_id:
-    current_settings = w.jobs.get(job_id=job_id).settings
-    print(f"Current job schedule: {current_settings.schedule.as_dict()}")
-    cron_expression = current_settings.schedule.quartz_cron_expression
-    timezone_id = current_settings.schedule.timezone_id
+    current_schedule = w.jobs.get(job_id=job_id).settings.schedule
+    print(f"Current job schedule: {current_schedule.as_dict()}")
+    cron_expression = current_schedule.quartz_cron_expression
+    timezone_id = current_schedule.timezone_id
     if WEEKDAYS_ONLY:
         cron_expression = update_cron(cron_expression, dom="?", dow="MON-FRI")
     else:
