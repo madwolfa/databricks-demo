@@ -71,6 +71,7 @@ resource "databricks_query" "this" {
   warehouse_id = data.databricks_sql_warehouse.this.id
   query_text   = <<EOT
 -- Use merge with schema evolution to copy data from the source table to the managed table
+-- https://docs.databricks.com/aws/en/sql/language-manual/delta-merge-into#with-schema-evolution
 MERGE WITH SCHEMA EVOLUTION INTO
   ${databricks_sql_table.this.id} AS target
 USING (
