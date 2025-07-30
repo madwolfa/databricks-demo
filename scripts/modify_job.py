@@ -3,7 +3,7 @@ from databricks.sdk import WorkspaceClient
 from databricks.sdk.service import jobs
 
 JOB_NAME = os.getenv("JOB_NAME", "SQL Copy Job")
-WEEKDAYS_ONLY = os.getenv("WEEKDAYS_ONLY", "False") in ["true", "True"]
+WEEKDAYS_ONLY = os.getenv("WEEKDAYS_ONLY", "False").lower() == "true"
 
 w = WorkspaceClient()
 
