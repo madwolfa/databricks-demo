@@ -13,6 +13,7 @@ This Terraform [code](./main.tf) creates a managed table in an existing catalog 
         - `databricks_client_secret`
 ### Execution
 This IaC is executed using the `Terraform Apply` GitHub Action [workflow](./.github/workflows/terraform-apply.yml). Terraform Cloud is used as a backend.
+Speculative plans are supported using the `Terraform Plan` GitHub Action [workflow](./.github/workflows/terraform-plan.yml) as part of PR review process.
 
 ## Python
 This [script](./scripts/modify_job.py) modifies the schedule of a Databricks job to run on weekdays only or every day based on the environment variable `WEEKDAYS_ONLY`. It uses the Databricks SDK for Python to interact with the Databricks workspace.
