@@ -4,9 +4,9 @@
      schema from a source table, and sets up a job to copy data using a merge query.
     
    Prerequisites:
-     1. Catalog ('sandbox') created manually in the Databricks UI with the default storage.
-     2. Service principal ('TERRAFORM_ADMIN') created with all privileges granted to it.
-     3. Credentials generated and stored as secure variables inside TFC workspace:
+      1. Catalog 'sandbox' created manually in the Databricks workspace UI with the default storage.
+      2. Service principal 'TERRAFORM_ADMIN' created with 'ALL PRIVILEGES' granted on the catalog.
+      3. Credentials generated and stored as secure variables inside TFC workspace:
          - databricks_workspace_url
          - databricks_client_id
          - databricks_client_secret
