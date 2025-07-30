@@ -83,8 +83,8 @@ USING (
   FROM
     ${data.databricks_table.source.name}
 ) AS source
+-- Compare the 'row_hash' values to identify matching rows
 ON
-  -- Compare the 'row_hash' values to identify matching rows
   target.row_hash = source.row_hash
 -- If not matched, insert the new row
 WHEN NOT MATCHED THEN INSERT *
