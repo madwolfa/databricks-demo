@@ -51,6 +51,11 @@ resource "databricks_sql_table" "this" {
       type = column.value.type_text
     }
   }
+  # Add a computed column for row hash
+  column {
+    name = "row_hash"
+    type = "string"
+  }
 
   comment = "This table is managed by Terraform"
 }
@@ -60,12 +65,15 @@ resource "databricks_query" "copy_query" {
   query_text   = <<EOT
 MERGE WITH SCHEMA EVOLUTION INTO
   ${databricks_sql_table.this.id} AS target
-USING
-  ${data.databricks_table.source.name} AS source
+USING (
+  SELECT
+    *,
+    sha2(concat_ws('||', *), 256) AS row_hash
+  FROM
+    ${data.databricks_table.source.name}
+) AS source
 ON
-  source.tpep_pickup_datetime = target.tpep_pickup_datetime
-  AND source.tpep_dropoff_datetime = target.tpep_dropoff_datetime
-WHEN MATCHED THEN UPDATE SET *
+  target.row_hash = source.row_hash
 WHEN NOT MATCHED THEN INSERT *
 WHEN NOT MATCHED BY SOURCE THEN DELETE
 EOT
