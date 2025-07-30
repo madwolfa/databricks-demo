@@ -25,4 +25,4 @@ jobs:
 
       - name: Run Python script
         run: |
-          python ../scripts/databricks.py
+          python ./scripts/databricks.py
