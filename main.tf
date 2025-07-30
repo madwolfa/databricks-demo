@@ -1,4 +1,8 @@
 /* 
+   Summary:    
+     This Terraform code creates a managed table in an existing catalog and schema, replicates the 
+     schema from a source table, and sets up a job to copy data using a merge query.
+    
    Prerequisites:
      1. Catalog ('sandbox') has been created manually in the Databricks UI with the default storage.
      2. Service principal ('TERRAFORM_ADMIN') has been created with all privileges granted to it.
