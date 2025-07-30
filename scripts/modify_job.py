@@ -56,7 +56,7 @@ def update_cron(cron, **kwargs):
 
 
 def update_job(job_name="", weekdays_only=False):
-    """Returns True if the job schedule was updated successfully
+    """Returns True if the job schedule was updated successfully.
 
     This function updates the schedule of a Databricks job to run on weekdays only or every day based on the value of the `weekdays_only` parameter.
     If the job is not found or more than one is found - it raises an exception, otherwise it updates the schedule of the job and returns True.
@@ -100,7 +100,6 @@ def update_job(job_name="", weekdays_only=False):
         )
         print(f"New job schedule: {new_settings.schedule.as_dict()}")
         w.jobs.update(job_id=job_id, new_settings=new_settings)
-        print("Job schedule updated!")
         return True
     else:
         print(f"Job with name '{job_name}' not found!")
@@ -108,4 +107,5 @@ def update_job(job_name="", weekdays_only=False):
 
 
 if __name__ == "__main__":
-    update_job(job_name=JOB_NAME, weekdays_only=WEEKDAYS_ONLY)
+    if update_job(job_name=JOB_NAME, weekdays_only=WEEKDAYS_ONLY):
+        print(f"Job '{JOB_NAME}' schedule updated successfully!")
