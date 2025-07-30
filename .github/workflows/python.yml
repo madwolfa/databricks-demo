@@ -26,4 +26,4 @@ jobs:
           pip install databricks-sdk
 
       - name: Run Python script
-        run: python scripts/databricks.py
+        run: python scripts/modify_job.py
