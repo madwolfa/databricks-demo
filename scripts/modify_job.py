@@ -21,7 +21,10 @@ def update_cron(cron, **kwargs):
         kwargs.get("month", parts[4]),
         kwargs.get("dow", parts[5]),
     )
-    return " ".join([seconds, minutes, hours, dom, month, dow])
+    return " ".join(
+        # Cast all parts to string for safety
+        [str(seconds), str(minutes), str(hours), str(dom), str(month), str(dow)]
+    )
 
 
 job_list = w.jobs.list(name=JOB_NAME)
