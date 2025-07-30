@@ -3,7 +3,7 @@ from databricks.sdk import WorkspaceClient
 from databricks.sdk.service import jobs
 
 JOB_NAME = os.getenv("JOB_NAME", "SQL Copy Job")
-WEEKDAYS_ONLY = os.getenv("WEEKDAYS_ONLY", "True") in ["true", "True"]
+WEEKDAYS_ONLY = os.getenv("WEEKDAYS_ONLY", "False") in ["true", "True"]
 
 w = WorkspaceClient()
 
@@ -58,5 +58,5 @@ if job_id:
     w.jobs.update(job_id=job_id, new_settings=new_settings)
     print("Job schedule updated!")
 else:
-    print("Job with name '{JOB_NAME}' not found!")
+    print(f"Job with name '{JOB_NAME}' not found!")
     raise Exception(f"Job with name '{JOB_NAME}' not found!")
