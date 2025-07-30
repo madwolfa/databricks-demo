@@ -65,21 +65,30 @@ resource "databricks_sql_table" "this" {
 }
 
 # Use merge query to copy data from the source table to the managed table
+# Since there is no unique key in the source table, we will use a hash of all columns to identify rows
+# The query will insert new unique rows and delete rows that are no longer present in the source table
 resource "databricks_query" "this" {
   warehouse_id = data.databricks_sql_warehouse.this.id
   query_text   = <<EOT
+-- Use merge with schema evolution to copy data from the source table to the managed table
 MERGE WITH SCHEMA EVOLUTION INTO
   ${databricks_sql_table.this.id} AS target
 USING (
   SELECT
+    -- Select all columns from the source table
     *,
+    -- Create a hash of all columns to identify unique rows
+    -- Put it into a new 'row_hash' column
     sha2(concat_ws('||', *), 256) AS row_hash
   FROM
     ${data.databricks_table.source.name}
 ) AS source
 ON
+  -- Compare the 'row_hash' values to identify matching rows
   target.row_hash = source.row_hash
+-- If not matched, insert the new row
 WHEN NOT MATCHED THEN INSERT *
+-- If not present in the source, delete the row
 WHEN NOT MATCHED BY SOURCE THEN DELETE
 EOT
   display_name = var.query_name
