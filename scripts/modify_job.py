@@ -35,8 +35,8 @@ def update_cron(cron, **kwargs):
 
     Args:
       cron (str): The cron expression to update.
-      **kwargs: Keyword arguments specifying the parts to update
-                (e.g., seconds, minutes, hours, dom, month, dow).
+      **kwargs: Keyword arguments specifying the parts to update (e.g., seconds, minutes, hours, dom, month, dow).
+
     Returns:
       str: The updated cron expression.
     """
