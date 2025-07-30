@@ -75,8 +75,7 @@ def update_job(job_name="", weekdays_only=False):
         job_ids.append(j.job_id)
 
     if len(job_ids) > 1:
-        print(f"Found more than one job with name '{job_name}': {job_ids}")
-        raise Exception(f"Found more than one job with name '{job_name}'.")
+        raise Exception(f"Found more than one job with name '{job_name}': {job_ids}.")
     elif len(job_ids) == 1:
         job_id = job_ids[0]
         print(f"Found job ID with name '{job_name}': {job_id}")
@@ -102,10 +101,14 @@ def update_job(job_name="", weekdays_only=False):
         w.jobs.update(job_id=job_id, new_settings=new_settings)
         return True
     else:
-        print(f"Job with name '{job_name}' not found!")
         raise Exception(f"Job with name '{job_name}' not found!")
 
 
 if __name__ == "__main__":
-    if update_job(job_name=JOB_NAME, weekdays_only=WEEKDAYS_ONLY):
-        print(f"Job '{JOB_NAME}' schedule updated successfully!")
+    try:
+        if update_job(job_name=JOB_NAME, weekdays_only=WEEKDAYS_ONLY):
+            print(f"Job '{JOB_NAME}' schedule updated successfully!")
+        else:
+            print(f"Job '{JOB_NAME}' schedule not updated!")
+    except Exception as e:
+        raise Exception(f"Error updating job '{JOB_NAME}': {e}")
