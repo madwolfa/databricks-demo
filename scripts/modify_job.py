@@ -8,7 +8,10 @@ all = w.catalogs.list()
 for c in all:
     print(c.name)
 
-job_list = w.jobs.list()
+job_list = w.jobs.list(name="SQL Copy Job")
+
+job_id = job_list[0].job_id
+print(job_id)
 
 print(job_list)
 
