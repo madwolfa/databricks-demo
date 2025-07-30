@@ -2,7 +2,9 @@
 Repository for Databricks Demo Terraform workspace
 
 ## Terraform
-This Terraform [code](./main.tf) creates a schema and managed table in an existing catalog, and sets up a scheduled job to copy data using a merge query.
+This Terraform [code](./main.tf) creates a new schema and managed table in an existing catalog, and sets up a scheduled job to copy data from the source table using a merge query. 
+It replicates the original table schema and adds a new `row_hash` column. Since there is no unique key in the source table, we will use a hash of all columns to identify rows.
+The query will insert new unique rows and delete rows that are no longer present in the source table.
 
 ### Prerequisites
   1. Catalog `sandbox` created manually in the Databricks workspace UI with the default storage.
