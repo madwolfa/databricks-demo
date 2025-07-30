@@ -1,7 +1,7 @@
 /* 
    Prerequisites:
-     1. Catalog has been created manually in the Databricks UI with the default storage.
-     2. Service principal 'TERRAFORM_ADMIN' has been created with all privileges granted to it.
+     1. Catalog ('sandbox') has been created manually in the Databricks UI with the default storage.
+     2. Service principal ('TERRAFORM_ADMIN') has been created with all privileges granted to it.
      3. Credentials have been generated and stored as secure variables inside TFC workspace:
          - databricks_workspace_url
          - databricks_client_id
