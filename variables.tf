@@ -62,6 +62,24 @@ variable "job_tags" {
   default     = {}
 }
 
+variable "query_name" {
+  description = "The name of the SQL query to run in the job."
+  type        = string
+  default     = "Copy Data Query"
+}
+
+variable "query_description" {
+  description = "A description for the SQL query."
+  type        = string
+  default     = "This query copies data from the source table to the managed table."
+}
+
+variable "query_tags" {
+  description = "Tags to apply to the SQL query."
+  type        = list(string)
+  default     = []
+}
+
 variable "quartz_cron_expression" {
   description = "The cron expression for the job schedule."
   type        = string
@@ -72,10 +90,4 @@ variable "timezone_id" {
   description = "The timezone ID for the job schedule."
   type        = string
   default     = "UTC"
-}
-
-variable "tags" {
-  description = "Tags to apply to all resources."
-  type        = map(string)
-  default     = {}
 }

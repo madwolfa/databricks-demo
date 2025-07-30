@@ -2,6 +2,10 @@
    Prerequisites:
      1. Catalog has been created manually in the Databricks UI with the default storage.
      2. Service principal 'TERRAFORM_ADMIN' has been created with all privileges granted to it.
+     3. Credentials have been generated and stored as secure variables inside TFC workspace:
+         - databricks_workspace_url
+         - databricks_client_id
+         - databricks_client_secret
 */
 
 # This Terraform code assumes that the catalog already exists. Let's look it up:
@@ -60,7 +64,8 @@ resource "databricks_sql_table" "this" {
   comment = "This table is managed by Terraform"
 }
 
-resource "databricks_query" "copy_query" {
+# Use merge query to copy data from the source table to the managed table
+resource "databricks_query" "this" {
   warehouse_id = data.databricks_sql_warehouse.this.id
   query_text   = <<EOT
 MERGE WITH SCHEMA EVOLUTION INTO
@@ -77,19 +82,24 @@ ON
 WHEN NOT MATCHED THEN INSERT *
 WHEN NOT MATCHED BY SOURCE THEN DELETE
 EOT
-  display_name = "Copy Query"
+  display_name = var.query_name
+  description  = var.query_description
+
+  tags = var.query_tags
 }
 
-resource "databricks_job" "sql_copy_job" {
+# Create job definition to run the copy query
+resource "databricks_job" "this" {
   name        = var.job_name
   description = var.job_description
 
   task {
-    task_key = "run_copy_query"
+    # Remove special characters for task key
+    task_key = replace("Run ${databricks_query.this.display_name}", "/[^a-zA-Z0-9]/", "_")
     sql_task {
       warehouse_id = data.databricks_sql_warehouse.this.id
       query {
-        query_id = databricks_query.copy_query.id
+        query_id = databricks_query.this.id
       }
     }
   }
