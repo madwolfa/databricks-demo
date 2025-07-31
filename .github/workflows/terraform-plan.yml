@@ -2,9 +2,9 @@ name: "Terraform Plan"
 
 on:
   pull_request:
-    paths-ignore:
-      - 'scripts/**'
-      - 'README.md'
+    paths:
+      - '*.tf'
+      - '*.tfvars'
 
 env:
   TF_CLOUD_ORGANIZATION: ${{ vars.TF_CLOUD_ORGANIZATION }}
