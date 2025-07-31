@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - "scripts/**"
 
 env:
-  TF_CLOUD_ORGANIZATION: "Foobar_Org"
+  TF_CLOUD_ORGANIZATION: "${{ var.TF_CLOUD_ORGANIZATION }}"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
-  TF_WORKSPACE: "databricks-demo"
+  TF_WORKSPACE: "${{ var.TF_WORKSPACE }}"
   CONFIG_DIRECTORY: "./"
 
 jobs:
