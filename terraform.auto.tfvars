@@ -17,7 +17,7 @@ query_name        = "Copy Data Query"
 query_description = "This query copies data from the source table to the managed table."
 query_tags        = []
 
-quartz_cron_expression = "0 0 12 * * ?" # Default to daily at noon
-timezone_id            = "UTC"          # Default to UTC
+quartz_cron_expression = "0 0 9 * * ?"
+timezone_id            = "CST"
 
 # Added to test a Pull Request
