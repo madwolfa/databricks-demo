@@ -9,7 +9,6 @@ The source table schema is replicated with an added `row_hash` column. Since the
 
 ```sql
 -- Use merge with schema evolution to copy data from the source table to the managed table
--- https://docs.databricks.com/aws/en/sql/language-manual/delta-merge-into#with-schema-evolution
 MERGE WITH SCHEMA EVOLUTION INTO
   sandbox.nyctaxi.trips AS target
 USING (
