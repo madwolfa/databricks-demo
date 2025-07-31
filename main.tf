@@ -137,8 +137,8 @@ resource "databricks_job" "this" {
 
   lifecycle {
     ignore_changes = [
-      # Ignore changes to the schedule outside of Terraform
-      schedule
+      ## Ignore changes to the schedule outside of Terraform (optional)
+      # schedule
     ]
   }
 }
