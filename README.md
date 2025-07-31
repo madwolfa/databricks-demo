@@ -9,7 +9,7 @@ The source table schema is replicated with an added `row_hash` column. Since the
 ### Prerequisites
   1. Catalog `sandbox` created manually in the Databricks workspace UI with the default storage.
   2. Service principal `TERRAFORM_ADMIN` created with `ALL PRIVILEGES` granted on the catalog.
-  3. Credentials generated and stored as secure variables inside TFC workspace:
+  3. Credentials generated and stored as secure variables inside Terraform Cloud workspace:
         - `databricks_workspace_url`
         - `databricks_client_id`
         - `databricks_client_secret`
