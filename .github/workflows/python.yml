@@ -22,7 +22,8 @@ env:
   DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
 
 jobs:
-  build:
+  modify_job:
+    name: "Run Modify Job Script"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
