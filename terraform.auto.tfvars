@@ -18,6 +18,4 @@ query_description = "This query copies data from the source table to the managed
 query_tags        = []
 
 quartz_cron_expression = "0 0 9 * * ?"
-timezone_id            = "CST"
-
-# Added to test a Pull Request
+timezone_id            = "UTC-05:00" # CDT (Central Daylight Time)
