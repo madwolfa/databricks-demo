@@ -3,13 +3,14 @@ name: "Terraform Plan"
 on:
   pull_request:
     paths-ignore:
-      - "scripts/**"
+      - 'scripts/**'
+      - 'README.md'
 
 env:
-  TF_CLOUD_ORGANIZATION: "${{ var.TF_CLOUD_ORGANIZATION }}"
-  TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
-  TF_WORKSPACE: "${{ var.TF_WORKSPACE }}"
-  CONFIG_DIRECTORY: "./"
+  TF_CLOUD_ORGANIZATION: ${{ var.TF_CLOUD_ORGANIZATION }}
+  TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+  TF_WORKSPACE: ${{ var.TF_WORKSPACE }}
+  CONFIG_DIRECTORY: './'
 
 jobs:
   terraform:
